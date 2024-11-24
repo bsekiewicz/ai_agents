@@ -148,28 +148,23 @@ def create_pizza_assistant():
 ```python
 # Create the assistant
 pizza_assistant = create_pizza_assistant()
-
-# Process a query
-pizza_assistant.interact("Cześć, jak was znaleźć?")
 ```
 
-```bash
+```python
+pizza_assistant.interact("Cześć, jak was znaleźć?")
+
 Cześć! Możesz nas znaleźć pod adresem: ul. Pyszna 24, 00-001 Warszawa. Jeśli potrzebujesz się z nami skontaktować, zadzwoń pod numer +48 123 456 789 lub napisz na e-mail: kontakt@pizzeria.pl. Jesteśmy otwarci od poniedziałku do piątku w godzinach 10:00 - 22:00, a w weekendy od 12:00 do 24:00. Możesz też śledzić nas na mediach społecznościowych: Facebook (facebook.com/pizzeria) i Instagram (instagram.com/pizzeria). Zapraszamy!
 ```
 
 ```python
 pizza_assistant.interact("Uwielbiam kukurydzę. Jaką pizze polecacie dla dwóch osób?")
-```
 
-```bash
 Polecam pizzę Vegetarian, która zawiera kukurydzę oraz inne świeże składniki. Dla dwóch osób idealna będzie średnia pizza (42 cm) za 52 PLN. Możecie także dodać ser extra lub inne dodatki według gustu. Smacznego!
 ```
 
 ```python
 pizza_assistant.interact("W takim razie chciałbym złożyć zamówienie.")
-```
 
-```bash
 Świetnie! Zacznijmy od kilku szczegółów. 
 
 1. Jaki rodzaj pizzy chciałbyś zamówić? (np. Margherita, Pepperoni, Hawaiian, Vegetarian, BBQ Chicken)
@@ -186,9 +181,7 @@ Czekam na Twoje odpowiedzi!
 
 ```python
 pizza_assistant.interact("Vegetariana, 43 cm, bez dodatków. Jan Okwalski, 888 621 1, ul. Fajna 66/6, Pole Małe. Płace BLIKIEM")
-```
 
-```bash
 Dziękuję za wszystkie informacje! Oto podsumowanie Twojego zamówienia:
 
 - **Rodzaj pizzy:** Vegetarian
@@ -209,9 +202,7 @@ Czy wszystko się zgadza? Jeśli tak, potwierdź proszę zamówienie!
 
 ```python
 pizza_assistant.interact("Zamawiam pizze. Nie zgadza się, chciałem 43cm")
-```
 
-```bash
 Przepraszam za pomyłkę! Rozmiar 43 cm to średnia pizza, która ma 42 cm. 
 
 Czy chciałbyś zamówić pizzę w rozmiarze dużym (60 cm)? Jeśli tak, to całkowity koszt zamówienia wyniesie 88 PLN. 
