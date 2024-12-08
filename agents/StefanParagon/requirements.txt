@@ -1,0 +1,8 @@
+flask==3.1.0
+gunicorn==23.0.0
+pydantic==2.10.3
+pandas==2.2.3
+openpyxl==3.1.5
+instructor==1.7.0
+openai==1.57.0
+python-dotenv==1.0.1

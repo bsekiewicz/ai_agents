@@ -1,0 +1,325 @@
+/* Reset stylów */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    height: 100%;
+    overflow: hidden; /* Zapobiega przewijaniu całej strony */
+}
+
+/* Nagłówek */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    border-bottom: 2px solid #444;
+}
+
+/* Logo */
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 10px 0;
+    background-color: #444;
+}
+
+/* Menu */
+.menu {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    background-color: #333;
+}
+
+.menu-icon {
+    display: block;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+    background-color: #444;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    top: 50px; /* Umieszczenie pod menu */
+}
+
+.menu-list li {
+    padding: 10px 0;
+}
+
+.menu-list li a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+}
+
+.menu-list li a:hover {
+    text-decoration: underline;
+}
+
+#menu-toggle {
+    display: none;
+}
+
+#menu-toggle:checked ~ .menu-list {
+    display: block;
+}
+
+/* Główna zawartość */
+main {
+    margin-top: 100px; /* Pod nagłówkiem */
+    height: calc(100% - 100px);
+    overflow: hidden; /* Tylko przewijalna sekcja */
+}
+
+/* Przyciski */
+.fixed-buttons {
+    position: fixed;
+    top: 100px; /* Zaraz pod nagłówkiem */
+    width: 100%;
+    background-color: #f4f4f4; /* Dopasowane tło */
+    z-index: 999;
+    padding: 10px 0;
+    border-bottom: 2px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Odstęp między przyciskami */
+}
+
+/* Formularz */
+#scan-form,
+#analyze-form {
+    width: 90%; /* Ustawienie szerokości formularza */
+    max-width: 400px; /* Maksymalna szerokość */
+    display: flex;
+    justify-content: center; /* Wyśrodkowanie zawartości */
+}
+
+#save-form {
+    display: flex;
+    justify-content: center; /* Wyśrodkowanie zawartości */
+}
+
+
+.scan-button,
+.analyze-button
+ {
+    display: block;
+    width: 100%; /* Szerokość przycisku */
+    max-width: 400px; /* Maksymalna szerokość */
+    padding: 15px; /* Wewnętrzne odstępy */
+    margin: 0; /* Usuń marginesy */
+    background-color: #666; /* Tło przycisku */
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.scan-button {
+margin-bottom: 0px;
+}
+
+.save-button {
+margin: 0px;
+padding: 0px;
+}
+
+
+
+.scan-button:hover,
+.analyze-button:hover {
+    background-color: #444;
+}
+
+/* Ukrycie input[type=file] */
+.hidden {
+    display: none; /* Ukrycie elementu input */
+}
+
+.scrollable-content {
+    margin-top: 120px;
+    height: calc(100% - 160px);
+    overflow-y: auto; /* Przewijalność */
+    padding: 20px;
+    background-color: #f4f4f4;
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+
+}
+
+@media (min-width: 1024px) {
+.scrollable-content {
+    margin-top: 120px;
+    height: calc(100% - 160px);
+    padding: 20px;
+    padding-right: 0px;
+    background-color: #fff;
+    overflow-y: scroll;
+}
+}
+
+/* Stylizacja dla mniejszych ekranów */
+@media (max-width: 1023px) {
+.scrollable-content {
+    margin-top: 120px;
+    height: calc(100% - 160px);
+    overflow-y: auto; /* Przewijalność */
+    padding: 20px;
+    background-color: #fff;
+}
+}
+
+
+/* Podgląd obrazu */
+.image-preview {
+    width: calc(100% - 40px);
+    max-width: 400px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 10px;
+    margin: 10px auto; /* Wyśrodkowanie w pionie i poziomie */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Wynik analizy */
+.analysis-result {
+    width: calc(100% - 40px);
+    max-width: 400px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    padding-top: 0px;
+    margin: 20px auto;
+    font-family: monospace; /* Styl kodu */
+    font-size: 14px;
+    color: #333;
+    white-space: pre-wrap; /* Obsługa wielowierszowego tekstu */
+    word-wrap: break-word;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.analysis-result.hidden {
+    display: none;
+}
+
+.analysis-result.visible {
+    display: block;
+    width: calc(100% - 40px);
+    max-width: 400px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: 20px auto;
+    font-family: monospace; /* Styl kodu */
+    font-size: 14px;
+    color: #333;
+    white-space: pre-wrap; /* Obsługa wielowierszowego tekstu */
+    word-wrap: break-word;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styl dla drzewa JSON */
+#json-viewer ul {
+    list-style: none;
+    padding-left: 20px;
+    font-family: monospace;
+    font-size: 14px;
+    color: #333;
+}
+
+#json-viewer li {
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+#json-viewer li.collapsible::before {
+    content: "▶"; /* Symbol zwiniętego węzła */
+    display: inline-block;
+    margin-right: 5px;
+    transform: rotate(0);
+    transition: transform 0.2s;
+}
+
+#json-viewer li.expanded::before {
+    content: "▼"; /* Symbol rozwiniętego węzła */
+    transform: rotate(90deg);
+}
+
+#json-viewer li.collapsible > div {
+    margin-left: 15px; /* Wcięcie dla dzieci */
+}
+
+.alert {
+    display: block;
+    width: calc(100% - 40px);
+    max-width: 400px;
+    padding: 10px;
+    color: white;
+    margin: 0 auto; /* Wyśrodkowanie w poziomie */
+    border-radius: 5px;
+    white-space: pre-wrap; /* Obsługa wielowierszowego tekstu */
+    word-wrap: break-word;
+    text-align: center; /* Wyśrodkowanie tekstu */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styl dla sukcesu */
+.alert.success {
+    background-color: #4CAF50; /* Zielony */
+}
+
+/* Styl dla błędu */
+.alert.error {
+    background-color: #F44336; /* Czerwony */
+}
+
+.about-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%; /* Szerokość prostokąta */
+    max-width: 600px; /* Maksymalna szerokość */
+    padding: 20px; /* Wewnętrzne marginesy */
+    margin: auto; /* Wyśrodkowanie poziome */
+    margin-top: 40px; /* Wyśrodkowanie pionowe (20% wysokości widoku) */
+    height: 80%;
+    background-color: #f9f9f9; /* Kolor tła */
+    border: 1px solid #ddd; /* Obramowanie */
+    border-radius: 10px; /* Zaokrąglone rogi */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Cień dla estetyki */
+    text-align: center; /* Wyśrodkowanie tekstu */
+}

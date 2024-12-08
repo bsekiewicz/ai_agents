@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Kontener na przyciski -->
+<div class="fixed-buttons">
+    <!-- Formularz z przyciskiem "Skanuj" -->
+    <form method="POST" enctype="multipart/form-data" id="scan-form">
+        <input type="file" name="file" id="file-input" class="hidden" accept="image/*" onchange="submitForm()">
+        <label for="file-input" class="scan-button">Skanuj</label>
+    </form>
+
+    <!-- Formularz dla przycisku "Analizuj" -->
+    {% if image_url %}
+    <form method="POST" action="{{ url_for('scan') }}" id="analyze-form">
+        <input type="hidden" name="analyze" value="true">
+        <input type="hidden" name="image_url" value="{{ image_url }}">
+        <input type="hidden" name="temp_file" value="{{ temp_file }}">
+        <button type="submit" class="analyze-button">Analizuj</button>
+    </form>
+    {% endif %}
+</div>
+
+<!-- Przewijalna zawartość -->
+<div class="scrollable-content">
+
+    {% if message %}
+    <div class="alert {{ 'success' if is_success == 'True' else 'error' }}">
+        {{ message }}
+    </div>
+    {% endif %}
+
+    <!-- Podgląd obrazu -->
+    {% if image_url %}
+    <div id="image-preview" class="image-preview">
+    {% if image_url %}
+    <img src="{{ image_url }}" alt="Załadowany obraz" style="max-width: 100%; height: auto;">
+    {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Sekcja na wynik analizy -->
+    {% if analysis_result %}
+    <div id="analysis-result" class="analysis-result visible">
+        <div id="json-viewer"></div>
+        <form method="POST" action="{{ url_for('save') }}" id="save-form">
+            <input type="hidden" name="image_url" value="{{ image_url }}">
+            <input type="hidden" name="temp_file" value="{{ temp_file }}">
+            <input type="hidden" name="analysis_result" value="{{ analysis_result }}">
+            <button type="submit" class="analyze-button">Zapisz</button>
+        </form>
+    </div>
+    {% else %}
+    <div id="analysis-result" class="analysis-result hidden"></div>
+    {% endif %}
+</div>
+
+<script>
+    // Automatyczne wysłanie formularza po wyborze pliku
+    function submitForm() {
+        document.getElementById('scan-form').submit();
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // JSON wynikowy (generowany przez backend)
+        const analysisResult = {{ analysis_result | safe }};
+
+        // Funkcja generująca drzewo
+        function renderJSONTree(container, data) {
+            if (typeof data === "object" && data !== null) {
+                const ul = document.createElement("ul");
+                for (const key in data) {
+                    const li = document.createElement("li");
+                    if (typeof data[key] === "object") {
+                        // Jeśli wartość jest obiektem, dodaj kliknięcie do rozwijania
+                        li.innerHTML = `<strong>${key}</strong>`;
+                        li.classList.add("collapsible");
+                        const childContainer = document.createElement("div");
+                        childContainer.style.display = "block"; // Domyślnie ukryte
+                        renderJSONTree(childContainer, data[key]);
+                        li.appendChild(childContainer);
+
+                        li.addEventListener("click", function (e) {
+                            e.stopPropagation(); // Unikaj propagacji kliknięcia
+                            const isCollapsed = childContainer.style.display === "none";
+                            childContainer.style.display = isCollapsed ? "block" : "none";
+                            li.classList.toggle("expanded", isCollapsed);
+                        });
+                    } else {
+                        li.innerHTML = `<strong>${key}</strong>: ${data[key]}`;
+                    }
+                    ul.appendChild(li);
+                }
+                container.appendChild(ul);
+            }
+        }
+
+        // Wyświetlenie JSON-a w div#json-viewer
+        const jsonViewer = document.getElementById("json-viewer");
+        if (analysisResult) {
+            renderJSONTree(jsonViewer, analysisResult);
+        }
+    });
+</script>
+
+
+{% endblock %}
