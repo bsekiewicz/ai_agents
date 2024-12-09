@@ -108,8 +108,7 @@ def scan():
             # Set the image URL for rendering
             image_url = f"/static/temp/{unique_filename}"
             temp_file = unique_filename
-
-        elif 'analyze' in request.form:
+        elif request.form.get('analyze', 'false') == 'true':
             # Handle receipt analysis
             temp_file = request.form.get('temp_file')
             if temp_file:
