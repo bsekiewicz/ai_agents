@@ -95,7 +95,7 @@ class Receipt(BaseModel):
     discounts: List[ReceiptDiscount] = Field(default_factory=list,
                                              description="List of general discounts on the receipt (can be empty)")
     products: List[Product] = Field(..., min_items=1,
-                                    description="List of purchased products. Must contain at least one product")
+                                    description="List of purchased products. Must contain at least one product. Don't remove any duplicates.")
 
 
 def encode_image(file_path: str) -> str:
@@ -124,22 +124,17 @@ def analyze_receipt(file_path: str) -> Receipt:
         ReceiptAnalysisResult: Simulated analysis data.
     """
     client = instructor.patch(openai.OpenAI(), mode=instructor.Mode.MD_JSON)
-
     base64_image = encode_image(file_path)
 
-    response = client.chat.completions.create(
+    response = openai.Client().chat.completions.create(
         model="gpt-4o-2024-08-06",
         messages=[
             {
                 "role": "system",
                 "content": (
-                    "You are an intelligent and highly capable assistant specializing in extracting detailed information "
-                    "from receipt images. Your primary task is to analyze receipts accurately and provide structured data "
-                    "in strict JSON format based on the content of the image."
-                    "Rules for analysis:"
-                    "1. Validate the number of unique items extracted against the receipt. Ensure the total matches the number of listed entries."
-                    "2. Include all items from the receipt, even if they appear multiple times. Do not group identical items; each instance should be listed separately as it appears on the receipt."
-                    "3. Cross-check the total amount and itemized prices, ensuring that the calculated total matches the receipt's total."
+                    "You are an intelligent assistant specializing in extracting raw text from receipt images. "
+                    "Extract all text exactly as it appears on the receipt, preserving formatting and structure. "
+                    "Do not summarize, interpret, or omit any details."
                 ),
             },
             {
@@ -148,7 +143,7 @@ def analyze_receipt(file_path: str) -> Receipt:
                     {
                         "type": "text",
                         "text": (
-                            "Please analyze the following receipt image and extract all relevant data. Respond strictly in the JSON format as described in the schema."
+                            "Please analyze the following receipt image and extract all text as-is."
                         ),
                     },
                     {
@@ -160,70 +155,89 @@ def analyze_receipt(file_path: str) -> Receipt:
                 ],
             },
         ],
-        response_model=Receipt,
         max_tokens=5000,
     )
+    receipt_ocr = response.choices[0].message.content
 
-    total_amount_test = sum([product.total_price for product in response.products]) - response.total_amount
-    print(total_amount_test)
-    if abs(total_amount_test) > 0.001:
-        print(
-            f"Warning: Total amount calculated does not match the receipt's total. Total amount difference: {total_amount_test:.2f}")
-        response = client.chat.completions.create(
-            model="gpt-4o-2024-08-06",
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        "You are an intelligent and highly capable assistant specializing in extracting detailed information "
-                        "from receipt images. Your primary task is to analyze receipts accurately and provide structured data "
-                        "in strict JSON format based on the content of the image."
-                        "Rules for analysis:"
-                        "1. Validate the number of unique items extracted against the receipt. Ensure the total matches the number of listed entries."
-                        "2. Include all items from the receipt, even if they appear multiple times. Do not group identical items; each instance should be listed separately as it appears on the receipt."
-                        "3. Cross-check the total amount and itemized prices, ensuring that the calculated total matches the receipt's total."
-                    ),
-                },
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": (
-                                "Please analyze the following receipt image and extract all relevant data. Respond strictly in the JSON format as described in the schema."
-                            ),
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/jpeg;base64,{base64_image}"
-                            },
-                        },
-                    ],
-                },
-                {
-                    "role": "assistant",
-                    "content": response.model_dump_json()
-                },
-                {
-                    "role": "user",
-                    "content": (
-                        f"The calculated sum of the itemized prices differs from the total amount on the receipt by {total_amount_test}. "
-                        "This discrepancy suggests that one or more items may have been missed or incorrectly scanned. "
-                        "Please carefully review the image again and ensure that all items are listed completely and accurately"
-                    ),
-                }
-            ],
-            response_model=Receipt,
-            max_tokens=5000,
-        )
-    total_amount_test = sum([product.total_price for product in response.products]) - response.total_amount
-    if abs(total_amount_test) > 0.001:
-        print(
-            f"Warning: Total amount calculated does not match the receipt's total. Total amount difference: {total_amount_test:.2f}")
-        response = analyze_receipt_dummy()
+    response = openai.Client().chat.completions.create(
+        model="gpt-4o-2024-08-06",
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are an intelligent assistant that extracts structured information from raw receipt text. "
+                    "Extract the following details from the provided text: "
+                    "1. All mentioned addresses. "
+                    "2. Receipt number or ID. "
+                    "3. Taxpayer Identification Number (NIP). "
+                    "4. Payment methods used. "
+                    "5. Total amount before and after promotions. "
+                    "6. General promotions or discounts applied to the total. "
+                    "Return the result as plain structured text, preserving clarity and accuracy."
+                ),
+            },
+            {
+                "role": "user",
+                "content": receipt_ocr,
+            },
+        ],
+        max_tokens=1500,
+    )
+    receipt_meta = response.choices[0].message.content
 
-    print(response)
+    response = openai.Client().chat.completions.create(
+        model="gpt-4o-2024-08-06",
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are an intelligent assistant specializing in extracting structured information from receipt text. "
+                    "From the provided receipt, extract a detailed list of all product entries exactly as they appear, including: "
+                    "1. Product name. "
+                    "2. Unit of measurement (if applicable). "
+                    "3. Quantity. "
+                    "4. Price per unit. "
+                    "5. Total price. "
+                    "Do not deduplicate, analyze, or interpret the data. Return the result as a structured plain text list."
+                ),
+            },
+            {
+                "role": "user",
+                "content": receipt_ocr,
+            },
+        ],
+        max_tokens=1500,
+    )
+    receipt_products = response.choices[0].message.content
+
+    response = client.chat.completions.create(
+        model="gpt-4o-2024-08-06",
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are an intelligent assistant that extracts structured information from receipt text. "
+                    "You specialize in converting raw receipt data into structured JSON, ensuring that all details are preserved. "
+                    "Your task is to analyze the provided receipt text and return detailed information in JSON format, based on the user's specific queries."
+                ),
+            },
+            {
+                "role": "assistant",
+                "content": (
+                    "Understood. Please provide the raw text of the receipt, and I will extract the requested structured data."
+                ),
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"The receipt contains the following validated metadata:\n\n{receipt_meta}\n\n"
+                    f"And the list of validated products (dont remove any position):\n\n{receipt_products}"
+                ),
+            },
+        ],
+        max_tokens=5000,
+        response_model=Receipt,
+    )
 
     return response
 
