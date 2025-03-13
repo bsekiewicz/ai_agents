@@ -1,6 +1,2 @@
-
-backend/.env
 backend/data/*
-
-
 frontend/*
