@@ -2,6 +2,8 @@
 
 ## Backend API
 
+Do poprawnego działania wymagane jest utworzenie pliku `.env` w lokalizacji `backend/` (patrz przykład `.env.empty`)
+
 ### Opis
 Backend API aktualnie obsługuje przetwarzanie obrazów paragonów za pomocą LLM OCR. Umożliwia przesyłanie obrazów oraz ekstrakcję danych z paragonów w sposób automatyczny.
 

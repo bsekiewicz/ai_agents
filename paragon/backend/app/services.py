@@ -46,7 +46,7 @@ def detect_rotation(image):
         return 0
 
 
-async def ocr_image(file: UploadFile):
+async def ocr_image(file: UploadFile, prompt_version: str):
     image_data = await file.read()
     file_hash = calculate_sha256(image_data)
     image = Image.open(io.BytesIO(image_data))
@@ -63,7 +63,7 @@ async def ocr_image(file: UploadFile):
     base64_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
 
     llm_model = "gpt-4o"
-    ocr_prompt_version = os.getenv("OCR_PROMPT_VERSION", "1_0_0")
+    ocr_prompt_version = prompt_version
     ocr_prompt = load_prompt(name="ocr", version=ocr_prompt_version)
 
     client = OpenAI(api_key=api_key)
