@@ -1,0 +1,38 @@
+| Line | Category | Content |
+|---|---|---|
+| 1 | A | MARKET PUNKT 4PL Sp. z .o.o. Sp. K. |
+| 2 | A | 30-134 Kraków, ul. Na Błonie 11b |
+| 3 | A | Pawilon Handlowy, ul. Na Błonie 11b |
+| 4 | O | Dziękujemy, zapraszamy ! |
+| 5 | A | NIP 6770026735 |
+| 6 | ID | 000248038 |
+| 7 | ID | 160874 |
+| 8 | O | 2023-10-27 13:13 |
+| 9 | O | PARAGON FISKALNY |
+| 10 | P | BATON ŻURAW YD 1 x1,59 1,59D |
+| 11 | P | ANIA BATON GRU-B 1 x3,59 3,59B |
+| 12 | P | ANIA BATON GRU-B 1 x3,69 3,69B |
+| 13 | P | FRUGO ZIELONE YD 1 x2,99 2,99D |
+| 14 | P | KUBU BRZOS 0, D 1 x2,79 2,79D |
+| 15 | S | SPRZEDAZ OPODATKOWANA B 7,28 |
+| 16 | S | PTU B 8 00 % 0,54 |
+| 17 | S | SPRZEDAZ OPODATKOWANA 0 % 7,37 |
+| 18 | S | SUMA TU 0,54 |
+| 19 | S | SUMA PLN 14,65 |
+| 20 | O | CD063 #KA3N9152 STOLIK NR 0 |
+| 21 | O | 2023 10 27 13:14 |
+| 22 | O | FA71353DEBA92300DF91FFA446A30B756BF9A0 |
+| 23 | O | hZ LCS 18010/04199 |
+| 24 | O | Nr sys. 915290 |
+| 25 | O | Karta 00000AUTORYZACJA |
+
+| Parameter | Value |
+|---|---|
+| DATE | 20231027 |
+| COMPANY | MARKET PUNKT 4PL Sp. z .o.o. Sp. K. |
+| TOTAL | 14,65 |
+| LLM MODEL | gpt-4o |
+| TOKENS IN | 2678 |
+| TOKENS OUT | 548 |
+| HASH | 0b0780a40c4581b190c254c1e5a6c06b4285b6c02d3293a5e1285b55c7332ddf |
+| OCR PROMPT VERSION | 1_0_3 |

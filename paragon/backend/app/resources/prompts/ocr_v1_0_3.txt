@@ -73,19 +73,23 @@ Your output should be presented as two Markdown tables: **RECEIPT** and **OCR CH
 | 1 | A | Address siedziby: Poznańska 48, Jankowice |
 | 2 | A | NIP: 7811897358 Lidl Sp. z o.o. sp.k. |
 | 3 | ID | Numer paragonu: 321836 |
-| 4 | P | Napój BIO A x1 4.25 4.25 |
-| 5 | PC | -2,25 |
-| 6 | PC | 2,00 |
-| 7 | P | Serix. A x2 1.59 3.18 |
+| 4 | O | PARAGON FISKALNY |
+| 5 | P | Napój BIO A x1 4.25 4.25 |
+| 6 | PC | -2,25 |
+| 7 | PC | 2,00 |
 | 8 | P | Serix. A x2 1.59 3.18 |
-| 9 | P | Serix. A x2 1.60 3.20 |
-| 10 | P | MAJSTERKOWANIE BN A 1*5,00= 5,00 A |
-| 11 | PC | 4239500356 A |
-| 12 | P | NEOMAG FORTE 20 TABL.MUS. .39788 B |
-| 13 | PC | 1 op * 16,50 = 16,50 B |
-| 14 | PC | Bez recepty |
-| 15 | S | Suma PLN: 97.35 |
-| 16 | O | Zarejestruj się! |
+| 9 | P | Serix. A x2 1.59 3.18 |
+| 10 | P | Serix. A x2 1.60 3.20 |
+| 11 | P | MAJSTERKOWANIE BN A 1*5,00= 5,00 A |
+| 12 | PC | 4239500356 A |
+| 13 | P | NEOMAG FORTE 20 TABL.MUS. .39788 B |
+| 14 | PC | 1 op * 16,50 = 16,50 B |
+| 15 | PC | Bez recepty |
+| 16 | P | SAN ŁAKOTKI CIASTKA DESEROWE 168G D |
+| 17 | PC | 1 szt*5.49 |
+| 18 | PC | 5.49D |
+| 19 | S | Suma PLN: 97.35 |
+| 20 | O | Zarejestruj się! |
 
 ### OCR CHECK Table Format:
 
